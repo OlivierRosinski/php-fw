@@ -12,40 +12,67 @@ namespace Metinet\Metier;
 use Metinet\Domain\Adresse;
 use Metinet\Domain\Candidate;
 use Metinet\Domain\DateOfConference;
+use Metinet\Domain\Participant;
+use Metinet\Domain\ParticipantCollection;
 use Metinet\Domain\Salle;
 use Exception;
 
 class Conference
 {
 
-    private $nomConference;
+    private $strNomConference;
     private $bExterneAutorise;
-    private $description;
-    private $objectifs;
+    private $strDescription;
+    private $strObjectifs;
     private $objSalle;
     private $nbMaxPersonne;
     private $dateDebut;
     private $dateFin;
     private $prixBillet;
+    private $colParticipant;
 
-
-    public function __construct(String $nomConference, bool $bExterneAutorise, String $description, String $objectifs, Salle $objSalle, Int $nbMaxPersonne, DateOfConference $dateDebut, DateOfConference $dateFin, Int $prixBillet, Int $duree)
+    public function __construct(String $strNomConference, bool $bExterneAutorise, String $strDescription, String $strObjectifs, Salle $objSalle, Int $nbMaxPersonne, DateOfConference $dateDebut, DateOfConference $dateFin, Int $prixBillet)
     {
-        $this->nomConference = $nomConference;
+        $this->strNomConference = $strNomConference;
         $this->bExterneAutorise = $bExterneAutorise;
-        $this->description = $description;
-        $this->objectifs = $objectifs;
+        $this->strDescription = $strDescription;
+        $this->strObjectifs = $strObjectifs;
         $this->objSalle = $objSalle;
         $this->nbMaxPersonne = $nbMaxPersonne;
         $this->dateDebut = $dateDebut;
         $this->dateFin = $dateFin;
         $this->prixBillet = $prixBillet;
-        $this->duree = $duree;
+        $this->colParticipant = new ParticipantCollection();
+    }
+
+    public function getStrNomConference(): String
+    {
+        return $this->strNomConference;
+    }
+
+    public function isBExterneAutorise(): bool
+    {
+        return $this->bExterneAutorise;
+    }
+
+    public function getStrDescription(): String
+    {
+        return $this->strDescription;
+    }
+
+    public function getStrObjectifs(): String
+    {
+        return $this->strObjectifs;
     }
 
     public function getObjSalle(): Salle
     {
         return $this->objSalle;
+    }
+
+    public function getNbMaxPersonne(): Int
+    {
+        return $this->nbMaxPersonne;
     }
 
     public function getDateDebut(): DateOfConference
@@ -58,44 +85,26 @@ class Conference
         return $this->dateFin;
     }
 
-    public function getNomConference(): String
-    {
-        return $this->nomConference;
-    }
-
-    public function getDescription(): String
-    {
-        return $this->description;
-    }
-
-    public function getObjectifs(): String
-    {
-        return $this->objectifs;
-    }
-
-    public function getNbMaxPersonne(): Int
-    {
-        return $this->nbMaxPersonne;
-    }
-
     public function getPrixBillet(): Int
     {
         return $this->prixBillet;
     }
 
-    public function getDuree()
+    public function getColParticipant(): ParticipantCollection
     {
-        return $this->duree;
+        return $this->colParticipant;
     }
 
-    public function getBExterneAutorise(): bool
-    {
-        return $this->bExterneAutorise;
-    }
 
     public function NbMaxPlacePositif(){
         if ($this->nbMaxPersonne < 1) {
             throw new Exception('Le nombre de place maximun doit être supérieur à 0.');
+        }
+    }
+
+    public function DateDebutFinVerif(){
+        if ($this->getDateDebut() > $this->getDateFin()){
+            throw new Exception('La date de début doit être inférieure à la date de fin de la conférence.');
         }
     }
 

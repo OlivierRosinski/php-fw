@@ -1,10 +1,17 @@
 {
   "logger": {
-    "type": "mysql",
+    "type": "file",
     "path": "../var/logs/debug.log",
     "format": "[%date%] - %url% - %message%"
   },
   "routes": {
+    "homepage": {
+      "path": "/",
+      "methods": [
+        "GET"
+      ],
+      "action": "Metinet:Controllers:ConferencesController::viewConferences"
+    },
     "candidates": {
       "path": "/students",
       "methods": [
@@ -25,6 +32,38 @@
         "GET"
       ],
       "action": "Metinet:Controllers:CandidatesController::disBonjour"
+    },
+    "submit_conference": {
+      "path": "/conferences/submit",
+      "methods": [
+        "GET"
+      ],
+      "action": "Metinet:Controllers:ConferencesController::submitNewConference"
+    },
+    "view_conferences": {
+      "path": "/conferences",
+      "methods": [
+        "GET"
+      ],
+      "action": "Metinet:Controllers:ConferencesController::viewConferences"
+    },
+    "submit_user": {
+      "path": "users/submit",
+      "methods": [
+        "GET"
+      ]
+    },
+    "login_user": {
+      "path" : "users/login",
+      "methods" : [
+        "GET"
+      ]
+    },
+    "logoff_user": {
+      "path" : "users/logoff",
+      "methods" : [
+        "GET"
+      ]
     }
   }
 }
